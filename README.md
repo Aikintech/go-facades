@@ -7,7 +7,7 @@ go mod init github.com/my/repo
 ```
 Then install go-facades
 ```bash
-go get init github.com/Aikintech/go-facades
+go get github.com/Aikintech/go-facades
 ```
 
 ## Quickstart
