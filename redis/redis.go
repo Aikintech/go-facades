@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/gofiber/storage/redis/v3"
+	goredis "github.com/redis/go-redis/v9"
 )
 
 type RedisCache struct {
@@ -24,6 +25,10 @@ func Redis(config redis.Config, prefix string) *RedisCache {
 // Close closes connection
 func (r *RedisCache) Close() error {
 	return r.client.Close()
+}
+
+func (r *RedisCache) Conn() goredis.UniversalClient {
+	return r.client.Conn()
 }
 
 // Delete removes an item from the cache.
