@@ -26,7 +26,7 @@ import (
 )
 
 func main() {
-    // Secret key must be 16 or 24 or 32 or 64 characters long
+    // Secret key must be 16 or 24 or 32 or 64 bytes
     var secretKey = "Om8FLaOZc0Y2IVx58K9MGTgm8RCmmE0L"
     var stringToBeEncrypted = "test-string"
     var crypt = facades.Crypt(secretKey)

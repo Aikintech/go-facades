@@ -18,7 +18,7 @@ type AesCrypto struct {
 
 func Crypt(secretKey string) *AesCrypto {
 	if len(secretKey) != 16 && len(secretKey) != 24 && len(secretKey) != 32 && len(secretKey) != 64 {
-		color.Redln("Empty or invalid secret key provided. Key must be 16 or 24 or 32 or 64 characters")
+		color.Redln("Empty or invalid secret key provided. Key must be 16 or 24 or 32 or 64 bytes")
 		return nil
 	}
 	keyBytes := []byte(secretKey)

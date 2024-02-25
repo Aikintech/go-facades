@@ -11,6 +11,12 @@ func TestCrypt(t *testing.T) {
 	secretKey := "Om8FLaOZc0Y2IVx58K9MGTgm8RCmmE0L"
 	str := "123456"
 
+	t.Run("invalid secret key", func(t *testing.T) {
+		crypt := Crypt("1234")
+
+		assert.Empty(crypt)
+	})
+
 	t.Run("encrypt string", func(t *testing.T) {
 		_, err := Crypt(secretKey).EncryptString(str)
 
@@ -18,13 +24,13 @@ func TestCrypt(t *testing.T) {
 	})
 
 	t.Run("decrypt string", func(t *testing.T) {
-		encrypted, err := Crypt(secretKey).EncryptString(str)
+		crypt := Crypt(secretKey)
+		encrypted, err := crypt.EncryptString(str)
 
 		// Assert encryption error
 		assert.NoError(err)
 
-		// Decrypt string
-		decrypted, err := Crypt(secretKey).DecryptString(encrypted)
+		decrypted, err := crypt.DecryptString(encrypted)
 
 		assert.NoError(err)
 		assert.Equal(str, decrypted)
