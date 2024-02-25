@@ -27,8 +27,10 @@ import (
 
 func main() {
     // Secret key must be 16 or 24 or 32 or 64 bytes
-    var secretKey = "Om8FLaOZc0Y2IVx58K9MGTgm8RCmmE0L"
-    var stringToBeEncrypted = "test-string"
+    var (
+        secretKey = "Om8FLaOZc0Y2IVx58K9MGTgm8RCmmE0L"
+        stringToBeEncrypted = "test-string"
+    )
     var crypt = facades.Crypt(secretKey)
 
     encrypted, err := crypt.EncryptString(stringToBeEncrypted)
@@ -43,6 +45,45 @@ func main() {
     }
 
     fmt.Println(decrypted)
+}
+
+```
+
+Redis
+
+```go
+import (
+    "fmt"
+
+    r "github.com/gofiber/storage/redis/v3"
+    facades "github.com/Aikintech/go-facades"
+)
+
+func main() {
+    var prefix = "myapp"
+    var key = "tel"
+    var rdb = facades.Redis(r.Config{
+        Host:      "127.0.0.1",
+        Port:      6379,
+        Username:  "",
+        Password:  "",
+        Database:  0,
+    }, prefix)
+
+    // Store value by key
+    err := rdb.Set(key, []byte("0244123456"))
+    if err != nil {
+        panic(err)
+    }
+
+    // Retrieve stored value by key
+    val, err := rdb.Get(key)
+    if err != nil {
+        panic(err)
+    }
+
+    // Cast val ([]byte) to string
+    fmt.Println(string(val))
 }
 
 ```
