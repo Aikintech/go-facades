@@ -29,14 +29,15 @@ func main() {
     // Secret key must be 16 or 24 or 32 or 64 characters long
     var secretKey = "Om8FLaOZc0Y2IVx58K9MGTgm8RCmmE0L"
     var stringToBeEncrypted = "test-string"
+    var crypt = facades.Crypt(secretKey)
 
-    encrypted, err := facades.Crypt(secretKey).EncryptString(stringToBeEncrypted)
+    encrypted, err := crypt.EncryptString(stringToBeEncrypted)
     if err != nil {
         panic(err)
     }
 
     // Decrypt encoded/encrypted string
-    decrypted, err := facades.Crypt(secretKey).DecryptString(encrypted)
+    decrypted, err := crypt.DecryptString(encrypted)
     if err != nil {
         panic(err)
     }
