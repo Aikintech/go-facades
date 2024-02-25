@@ -36,7 +36,7 @@ func main() {
         panic(err)
     }
 
-    // Decrypt encoded/encrypted string
+    // Decrypt string
     decrypted, err := crypt.DecryptString(encrypted)
     if err != nil {
         panic(err)
