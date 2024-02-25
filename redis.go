@@ -2,8 +2,9 @@ package gofacades
 
 import (
 	"fmt"
-	"github.com/gofiber/storage/redis/v3"
 	"time"
+
+	"github.com/gofiber/storage/redis/v3"
 )
 
 type RedisCache struct {
@@ -11,20 +12,18 @@ type RedisCache struct {
 	prefix string
 }
 
-var cache RedisCache
+func Redis(config redis.Config, prefix string) *RedisCache {
+	client := redis.New(config)
 
-func NewConnection(config redis.Config, prefix string) {
-	cache = RedisCache{
-		client: redis.New(config),
+	return &RedisCache{
+		client: client,
 		prefix: prefix,
 	}
 }
 
-func Redis() *RedisCache {
-	return &RedisCache{
-		client: cache.client,
-		prefix: cache.prefix,
-	}
+// Close closes connection
+func (r *RedisCache) Close() error {
+	return r.client.Close()
 }
 
 // Delete removes an item from the cache.
