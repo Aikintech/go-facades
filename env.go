@@ -4,9 +4,19 @@ import (
 	"os"
 	"strconv"
 	"strings"
+
+	"github.com/gookit/color"
+	dotenv "github.com/joho/godotenv"
 )
 
 type env struct{}
+
+func LoadEnv() {
+	err := dotenv.Load()
+	if err != nil {
+		color.Redln("Failed to load .env: Switching to os")
+	}
+}
 
 func Env() *env {
 	return &env{}
