@@ -11,8 +11,13 @@ import (
 
 type env struct{}
 
-func LoadEnv() {
-	err := dotenv.Load()
+func LoadEnv(filename string) {
+	f := ".env"
+	if f != "" {
+		f = filename
+	}
+
+	err := dotenv.Load(f)
 	if err != nil {
 		color.Redln("Failed to load .env: Switching to os")
 	}
