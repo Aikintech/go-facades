@@ -1,4 +1,4 @@
-module github.com/Aikintech/gofacades
+module github.com/Aikintech/go-facades
 
 go 1.20
 
