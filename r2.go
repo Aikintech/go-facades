@@ -1,4 +1,4 @@
-package storage
+package gofacades
 
 import (
 	"context"
