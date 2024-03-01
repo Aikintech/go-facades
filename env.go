@@ -9,7 +9,7 @@ import (
 	dotenv "github.com/joho/godotenv"
 )
 
-type env struct{}
+type Env struct{}
 
 func LoadEnv(filename string) {
 	f := ".env"
@@ -23,17 +23,17 @@ func LoadEnv(filename string) {
 	}
 }
 
-func Env() *env {
-	return &env{}
+func GetEnv() *Env {
+	return &Env{}
 }
 
 // GetString gets string type env from os.
-func (e *env) GetString(key string, defaultValue ...interface{}) string {
+func (e *Env) GetString(key string, defaultValue ...interface{}) string {
 	return e.getEnv(key, defaultValue...).(string)
 }
 
 // GetInt gets int type env from os.
-func (e *env) GetInt(key string, defaultValue ...interface{}) int {
+func (e *Env) GetInt(key string, defaultValue ...interface{}) int {
 	val := e.getEnv(key, defaultValue...)
 	switch v := val.(type) {
 	case int:
@@ -48,7 +48,7 @@ func (e *env) GetInt(key string, defaultValue ...interface{}) int {
 }
 
 // GetBool gets bool type config from application.
-func (e *env) GetBool(key string, defaultValue ...interface{}) bool {
+func (e *Env) GetBool(key string, defaultValue ...interface{}) bool {
 	val := e.getEnv(key, defaultValue...)
 	switch v := val.(type) {
 	case bool:
@@ -63,14 +63,14 @@ func (e *env) GetBool(key string, defaultValue ...interface{}) bool {
 }
 
 // GetStringSlice gets string from env, split it by comma and converts to string slice.
-func (e *env) GetStringSlice(key string, defaultValue ...interface{}) []string {
+func (e *Env) GetStringSlice(key string, defaultValue ...interface{}) []string {
 	val := e.getEnv(key, defaultValue...)
 	split := strings.Split(val.(string), ",")
 
 	return split
 }
 
-func (e *env) getEnv(key string, defaultValue ...interface{}) interface{} {
+func (e *Env) getEnv(key string, defaultValue ...interface{}) interface{} {
 	val := os.Getenv(key)
 	if val == "" && len(defaultValue) > 0 {
 		return defaultValue[0]

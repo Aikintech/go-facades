@@ -21,7 +21,7 @@ func TestEnv(t *testing.T) {
 		assert.NoError(err)
 
 		// Get value from env
-		val := Env().GetString(key)
+		val := GetEnv().GetString(key)
 
 		assert.Equal(value, val)
 	})
@@ -37,7 +37,7 @@ func TestEnv(t *testing.T) {
 		assert.NoError(err)
 
 		// Get value from env
-		val := Env().GetBool(key)
+		val := GetEnv().GetBool(key)
 
 		assert.Equal(true, val)
 	})
@@ -53,7 +53,7 @@ func TestEnv(t *testing.T) {
 		assert.NoError(err)
 
 		// Get value from env
-		val := Env().GetInt(key)
+		val := GetEnv().GetInt(key)
 
 		assert.Equal(1, val)
 	})
@@ -69,7 +69,7 @@ func TestEnv(t *testing.T) {
 		assert.NoError(err)
 
 		// Get value from env
-		val := Env().GetStringSlice(key)
+		val := GetEnv().GetStringSlice(key)
 
 		assert.Equal([]string{"1", "2"}, val)
 	})
