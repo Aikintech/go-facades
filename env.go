@@ -1,25 +1,30 @@
 package gofacades
 
 import (
+	"fmt"
 	"os"
 	"strconv"
 	"strings"
 
-	"github.com/gookit/color"
 	dotenv "github.com/joho/godotenv"
 )
 
 type Env struct{}
 
 func LoadEnv(filename string) {
-	f := ".env"
-	if f != "" {
-		f = filename
+	file := ".env"
+	if file != "" {
+		file = filename
 	}
 
-	err := dotenv.Load(f)
+	err := dotenv.Load(file)
+
 	if err != nil {
-		color.Redln("Failed to load .env: Switching to os")
+		if os.IsNotExist(err) {
+			fmt.Println(".env file not found, using only system environment variables.")
+		} else {
+			fmt.Printf("error loading .env file: %s", err)
+		}
 	}
 }
 
@@ -29,12 +34,12 @@ func GetEnv() *Env {
 
 // GetString gets string type env from os.
 func (e *Env) GetString(key string, defaultValue ...interface{}) string {
-	return e.getEnv(key, defaultValue...).(string)
+	return e.env(key, defaultValue...).(string)
 }
 
 // GetInt gets int type env from os.
 func (e *Env) GetInt(key string, defaultValue ...interface{}) int {
-	val := e.getEnv(key, defaultValue...)
+	val := e.env(key, defaultValue...)
 	switch v := val.(type) {
 	case int:
 		return v
@@ -49,7 +54,7 @@ func (e *Env) GetInt(key string, defaultValue ...interface{}) int {
 
 // GetBool gets bool type config from application.
 func (e *Env) GetBool(key string, defaultValue ...interface{}) bool {
-	val := e.getEnv(key, defaultValue...)
+	val := e.env(key, defaultValue...)
 	switch v := val.(type) {
 	case bool:
 		return v
@@ -64,13 +69,13 @@ func (e *Env) GetBool(key string, defaultValue ...interface{}) bool {
 
 // GetStringSlice gets string from env, split it by comma and converts to string slice.
 func (e *Env) GetStringSlice(key string, defaultValue ...interface{}) []string {
-	val := e.getEnv(key, defaultValue...)
+	val := e.env(key, defaultValue...)
 	split := strings.Split(val.(string), ",")
 
 	return split
 }
 
-func (e *Env) getEnv(key string, defaultValue ...interface{}) interface{} {
+func (e *Env) env(key string, defaultValue ...interface{}) interface{} {
 	val := os.Getenv(key)
 	if val == "" && len(defaultValue) > 0 {
 		return defaultValue[0]
