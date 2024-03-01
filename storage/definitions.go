@@ -1,4 +1,4 @@
-package gofacades
+package storage
 
 import "mime/multipart"
 
