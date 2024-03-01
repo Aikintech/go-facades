@@ -11,13 +11,8 @@ import (
 
 type Env struct{}
 
-func LoadEnv(filename string) {
-	file := ".env"
-	if file != "" {
-		file = filename
-	}
-
-	err := dotenv.Load(file)
+func LoadEnv(filenames ...string) {
+	err := dotenv.Load(filenames...)
 
 	if err != nil {
 		if os.IsNotExist(err) {
