@@ -31,3 +31,9 @@ type Storage interface {
 	PutFile(path string, source *multipart.FileHeader) (FileDetails, error)
 	Size(file string) (int64, error)
 }
+
+type Hash interface {
+	Check(value, hash string) bool
+	Make(value string) (string, error)
+	NeedsRehash(hash string) bool
+}
