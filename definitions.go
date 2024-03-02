@@ -18,7 +18,7 @@ type S3Config struct {
 	AccessKeySecret string
 	Region          string
 	AccountId       *string
-	CDNUrl          *string
+	CdnURL          *string
 }
 
 type Storage interface {
@@ -30,6 +30,7 @@ type Storage interface {
 	Put(path string, source *multipart.FileHeader) (FileDetails, error)
 	PutFile(path string, source *multipart.FileHeader) (FileDetails, error)
 	Size(file string) (int64, error)
+	Url(key string) string
 }
 
 type Hash interface {

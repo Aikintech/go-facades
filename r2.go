@@ -31,16 +31,18 @@ func NewR2(config S3Config) *R2 {
 		bucket          = config.Bucket
 		region          = config.Region
 		accountId       = config.AccountId
-		url             = config.CDNUrl
+		url             = config.CdnURL
 	)
 	if accessKeyId == "" || accessKeySecret == "" || url == nil || accountId == nil || bucket == "" || region == "" {
 		log.Fatal("please set configuration first")
 	}
 
+	u := fmt.Sprintf("https://%s.r2.cloudflarestorage.com", *accountId)
+
+	fmt.Println(u)
+
 	r2Resolver := aws.EndpointResolverWithOptionsFunc(func(service, region string, opt ...interface{}) (aws.Endpoint, error) {
-		return aws.Endpoint{
-			URL: fmt.Sprintf("https://%s.r2.cloudflarestorage.com", *accountId),
-		}, nil
+		return aws.Endpoint{URL: u}, nil
 	})
 	cfg, err := cfg.LoadDefaultConfig(context.TODO(),
 		cfg.WithEndpointResolverWithOptions(r2Resolver),
@@ -149,11 +151,13 @@ func (s *R2) PutFile(path string, source *multipart.FileHeader) (FileDetails, er
 
 	uploader := manager.NewUploader(s.instance)
 
-	_, err = uploader.Upload(context.TODO(), &s3.PutObjectInput{
+	result, err := uploader.Upload(context.TODO(), &s3.PutObjectInput{
 		Bucket: aws.String(s.bucket),
 		Key:    aws.String(fullPath),
 		Body:   fileContents,
 	})
+	fmt.Println(result)
+
 	if err != nil {
 		return FileDetails{}, err
 	}
@@ -181,10 +185,10 @@ func (s *R2) Size(file string) (int64, error) {
 	return *resp.ContentLength, nil
 }
 
-func (s *R2) Url(path string) string {
-	return fmt.Sprintf("%s/%s", s.url, path)
-}
+func (s *R2) Url(key string) string {
+	if len(key) == 0 {
+		return ""
+	}
 
-func (s *R2) Instance() *R2 {
-	return s
+	return fmt.Sprintf("%s/%s", s.url, key)
 }
