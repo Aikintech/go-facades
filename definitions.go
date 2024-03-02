@@ -24,6 +24,7 @@ type S3Config struct {
 type Storage interface {
 	Delete(files ...string) error
 	Exist(path string) bool
+	FileExtension(mime string) string
 	GetBytes(file string) ([]byte, error)
 	// MakeDirectory(directory string) error
 	MimeType(file string) (string, error)
