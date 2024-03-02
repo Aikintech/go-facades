@@ -184,3 +184,7 @@ func (s *R2) Size(file string) (int64, error) {
 func (s *R2) Url(path string) string {
 	return fmt.Sprintf("%s/%s", s.url, path)
 }
+
+func (s *R2) Instance() *R2 {
+	return s
+}
