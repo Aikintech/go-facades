@@ -24,7 +24,7 @@ type R2 struct {
 	url      string
 }
 
-func NewR2(config S3Config) Storage {
+func NewR2(config S3Config) *R2 {
 	var (
 		accessKeyId     = config.AccessKeyId
 		accessKeySecret = config.AccessKeySecret
