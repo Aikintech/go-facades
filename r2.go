@@ -90,15 +90,6 @@ func (s *R2) Delete(files ...string) error {
 	return err
 }
 
-func (s *R2) FileExtension(mime string) string {
-	split := strings.Split(mime, "/")
-	if len(split) > 1 {
-		return split[len(split)-1]
-	}
-
-	return ""
-}
-
 func (s *R2) GetBytes(file string) ([]byte, error) {
 	resp, err := s.instance.GetObject(s.ctx, &s3.GetObjectInput{
 		Bucket: aws.String(s.bucket),
