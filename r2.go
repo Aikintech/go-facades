@@ -144,7 +144,7 @@ func (s *R2) PutFile(path string, source *multipart.FileHeader) (FileDetails, er
 	// Get file details
 	mimeType := source.Header.Get("Content-Type")
 	extension := strings.ReplaceAll(filepath.Ext(source.Filename), ".", "")
-	filename := fmt.Sprintf("%s.%s", "", extension)
+	filename := fmt.Sprintf("%s.%s", GenerateRandomString(uint(20), true), extension)
 	fullPath := filepath.Join(strings.ToLower(path), filename)
 
 	uploader := manager.NewUploader(s.instance)
