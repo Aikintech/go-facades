@@ -117,7 +117,7 @@ func (r *RedisCache) key(key string) string {
 	var formattedKey string
 
 	if len(r.prefix) > 0 {
-		formattedKey = fmt.Sprintf("%s:%s", r.prefix, key)
+		formattedKey = fmt.Sprintf("%s_%s", r.prefix, key)
 	}
 
 	return formattedKey
