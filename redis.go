@@ -70,7 +70,7 @@ func (r *RedisCache) Put(key string, value []byte, expiration time.Duration) err
 func (r *RedisCache) Remember(key string, expiration time.Duration, callback func() ([]byte, error)) ([]byte, error) {
 	data, err := r.Get(key)
 
-	if err != nil {
+	if err != nil || len(data) == 0 {
 		// Invoke the callback
 		data, err = callback()
 
@@ -93,7 +93,7 @@ func (r *RedisCache) Remember(key string, expiration time.Duration, callback fun
 func (r *RedisCache) RememberForever(key string, callback func() ([]byte, error)) ([]byte, error) {
 	data, err := r.Get(key)
 
-	if err != nil {
+	if err != nil || len(data) == 0 {
 		// Invoke the callback
 		data, err = callback()
 
