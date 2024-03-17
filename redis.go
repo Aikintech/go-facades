@@ -70,20 +70,20 @@ func (r *RedisCache) Put(key string, value []byte, expiration time.Duration) err
 func (r *RedisCache) Remember(key string, expiration time.Duration, callback func() ([]byte, error)) ([]byte, error) {
 	data, err := r.Get(key)
 
-	if err != nil || len(data) == 0 {
-		// Invoke the callback
-		data, err = callback()
+	if err == nil && data != nil {
+		return data, nil
+	}
 
-		if err != nil {
-			return nil, err
-		}
+	// Data not found in cache, invoke callback to retrieve it
+	data, err = callback()
+	if err != nil {
+		return nil, err // Error while retrieving data
+	}
 
-		// Store the value in the cache
-		err = r.Put(key, data, expiration)
-
-		if err != nil {
-			return nil, err
-		}
+	// Store data in cache with expiration
+	err = r.Put(key, data, expiration)
+	if err != nil {
+		return nil, err
 	}
 
 	return data, nil
