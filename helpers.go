@@ -20,9 +20,11 @@ func GenerateRandomString(n uint, lowercase bool) string {
 }
 
 func GenerateRandomNumbers(n uint) int64 {
-	num, _ := strconv.Atoi(getRandomChars(NUMBERS, n))
+	num := rand.Int63()
 
-	return int64(num)
+	numStr, _ := strconv.Atoi(strconv.FormatInt(num, 10)[0:n])
+
+	return int64(numStr)
 }
 
 func getRandomChars(charset string, n uint) string {
